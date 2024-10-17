@@ -10,7 +10,7 @@ const userValidator = [
   body("password")
     .exists()
     .withMessage("Password is required")
-    .isLength({ min: 8 })
+    .isLength({ min: 8, max: 15 })
     .withMessage("Password must be at least 8 characters long"),
   body("name")
     .exists()

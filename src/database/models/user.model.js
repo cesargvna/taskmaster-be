@@ -30,6 +30,8 @@ const User = connection.define(
   },
 );
 
-//User.sync({ force: true });
+User.sync({
+  // force: true
+});
 
 export { User };
