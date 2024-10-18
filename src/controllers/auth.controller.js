@@ -34,14 +34,20 @@ export async function login(req, res) {
   const expiresIn = Math.floor(now.getTime() / 1000) + TWO_HURS_IN_MS;
   const issuedAt = Math.floor(now.getTime() / 1000);
 
+  // const payload = {
+  //   sub: user.id,
+  //   exp: expiresIn,
+  //   iat: issuedAt,
+  //   iss: process.env.JWT_ISSUER,
+  // }
   const payload = {
-    sub: user.id,
-    exp: expiresIn,
-    iat: issuedAt,
-    iss: process.env.JWT_ISSUER,
-  }
+    id: user.id,
+    email: user.email,
 
-  const token = jwtEncode(payload);
+  }
+  console.log(payload)
+
+  const token = await jwtEncode(payload);
 
   return res.status(200).json({
     success: true,
@@ -51,25 +57,29 @@ export async function login(req, res) {
     }
   })
 }
-export async function signup(req, res) {
+export async function signup(req, res, next) {
   const { email, password, name, phone } = req.body;
-
-  const passwordHash = await hashPassword(password);
-  const created = await User.create({
-    id: v4(),
-    email,
-    password: passwordHash,
-    name,
-    phone,
-  });
-  if (!created) {
-    return res.status(500).send({
-      success: false,
-      message: "Failed to create user",
+  try {
+    const passwordHash = await hashPassword(password);
+    const created = await User.create({
+      id: v4(),
+      email,
+      password: passwordHash,
+      name,
+      phone,
     });
+    // if (!created) {
+    //   return res.status(500).send({
+    //     success: false,
+    //     message: "Failed to create user",
+    //   });
+    // }
+    return res.status(201).send({
+      success: true,
+      message: "User created",
+      data: created
+    });
+  } catch (error) {
+    next(error)
   }
-  return res.status(201).send({
-    success: true,
-    message: "User created",
-  });
 }
