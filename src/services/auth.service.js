@@ -12,16 +12,16 @@ export async function verifyPassword(plain, hash) {
   return verified;
 }
 
-export function jwtEncode(payload) {
+export async function jwtEncode(payload) {
   const secret = process.env.JWT_SECRET;
   if (!secret) {
     throw new Error("Secret not found");
   }
-  const token = jwt.sign(payload, secret);
+  const token = jwt.sign(payload, secret, { expiresIn: '1d' });
   return token;
 }
 
-export function jwtDecode(token) {}
+export function jwtDecode(token) { }
 
 export function jwtVerify(encoded) {
   try {
