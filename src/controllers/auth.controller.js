@@ -11,22 +11,22 @@ export async function login(req, res) {
   const user = await User.findOne({
     where: {
       email,
-    }
-  })
+    },
+  });
 
   if (!user) {
     return res.status(401).json({
       success: false,
-      message: "User not found"
-    })
+      message: "User not found",
+    });
   }
 
   const passwordVerified = await verifyPassword(password, user.password);
   if (!passwordVerified) {
     return res.status(401).json({
       success: false,
-      message: "Invalid password"
-    })
+      message: "Invalid password",
+    });
   }
 
   const now = new Date();
@@ -43,9 +43,8 @@ export async function login(req, res) {
   const payload = {
     id: user.id,
     email: user.email,
-
-  }
-  console.log(payload)
+  };
+  console.log(payload);
 
   const token = await jwtEncode(payload);
 
@@ -53,9 +52,9 @@ export async function login(req, res) {
     success: true,
     data: {
       token,
-      expiresIn
-    }
-  })
+      expiresIn,
+    },
+  });
 }
 export async function signup(req, res, next) {
   const { email, password, name, phone } = req.body;
@@ -63,11 +62,12 @@ export async function signup(req, res, next) {
     const passwordHash = await hashPassword(password);
     const created = await User.create({
       id: v4(),
-      email,
+      email: email,
       password: passwordHash,
-      name,
-      phone,
+      name: name,
+      phone: phone,
     });
+    console.log(created);
     // if (!created) {
     //   return res.status(500).send({
     //     success: false,
@@ -77,9 +77,9 @@ export async function signup(req, res, next) {
     return res.status(201).send({
       success: true,
       message: "User created",
-      data: created
+      data: created,
     });
   } catch (error) {
-    next(error)
+    next(error);
   }
 }
