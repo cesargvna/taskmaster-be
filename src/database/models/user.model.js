@@ -31,7 +31,7 @@ const User = connection.define(
 );
 
 User.sync({
-  // force: true
+  //force: true,
 });
 
 export { User };
