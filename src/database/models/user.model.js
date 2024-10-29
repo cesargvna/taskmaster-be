@@ -24,6 +24,10 @@ const User = connection.define(
       unique: true,
       allowNull: true,
     },
+    image: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
   {
     timestamps: true,

@@ -1,5 +1,10 @@
 import { User } from "../database/models/index.js";
 import { hashPassword } from "../services/auth.service.js";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const getUserById = async (req, res, next) => {
   const { id } = req.params;
@@ -25,22 +30,46 @@ const getUserById = async (req, res, next) => {
 
 const updateUser = async (req, res, next) => {
   const { id } = req.params;
-  const { email, password, name, phone } = req.body;
+  const { password } = req.body;
+  console.log(req.files);
   const user = await User.findOne({
     where: {
       id,
     },
   });
+
   if (!user) {
     return res.status(404).json({ error: "User not found" });
   }
-  const passwordHash = await hashPassword(password);
+  let uploadPath;
+  let imageFile = null;
+  if (req.files && req.files.image) {
+    imageFile = req.files.image;
+    console.log(imageFile);
+    uploadPath = path.join(
+      __dirname,
+      "../uploads",
+      `${id + "." + imageFile.mimetype.split("/")[1]}`,
+    );
+    imageFile.mv(uploadPath, (err) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
+    });
+  }
+  const updatedUser = {
+    ...user,
+    password: password && (await hashPassword(password)),
+    image:
+      uploadPath && `/uploads/${id + "." + imageFile.mimetype.split("/")[1]}`,
+    ...req.body,
+  };
+
   try {
-    const userUpdated = await user.update({
-      email,
-      password: passwordHash,
-      name,
-      phone,
+    const userUpdated = await user.update(updatedUser, {
+      where: {
+        id,
+      },
     });
     if (!userUpdated) {
       return res.status(400).json({

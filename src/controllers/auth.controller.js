@@ -44,7 +44,6 @@ export async function login(req, res) {
     id: user.id,
     email: user.email,
   };
-  console.log(payload);
 
   const token = await jwtEncode(payload);
 
