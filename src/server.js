@@ -12,6 +12,7 @@ import "./database/connection.js";
 
 import authRouter from "./routes/auth.routes.js";
 import userRouter from "./routes/user.routes.js";
+import taskRouter from "./routes/task.routes.js";
 import { tokenExtractor, authMiddleware } from "./middleware/auth.middlewre.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 
@@ -31,6 +32,7 @@ function main() {
 
   app.use("/auth", authRouter);
   app.use("/user", authMiddleware, userRouter);
+  app.use("/task", taskRouter);
 
   app.use(errorHandler);
 

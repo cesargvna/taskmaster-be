@@ -1,32 +1,24 @@
 import { DataTypes } from "sequelize";
 import { connection } from "../connection.js";
 
-const User = connection.define(
-  "users",
+const Task = connection.define(
+  "tasks",
   {
     id: {
       type: DataTypes.STRING,
       primaryKey: true,
     },
-    email: {
-      type: DataTypes.STRING,
-      unique: true,
-    },
-    password: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    name: {
-      type: DataTypes.STRING,
-    },
-    phone: {
-      type: DataTypes.STRING(15),
-      unique: true,
-      allowNull: true,
-    },
-    image: {
+    description: {
       type: DataTypes.STRING,
       allowNull: true,
+    },
+    status: {
+      type: DataTypes.ENUM("do", "in-progress", "completed"),
+      defaultValue: "do",
     },
   },
   {
@@ -34,4 +26,4 @@ const User = connection.define(
   },
 );
 
-export { User };
+export { Task };
