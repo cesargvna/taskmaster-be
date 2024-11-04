@@ -5,6 +5,7 @@ import {
   verifyPassword,
 } from "../services/auth.service.js";
 import { User } from "../database/models/index.js";
+import { sendMail } from "../services/email.service.js";
 
 export async function login(req, res) {
   const { email, password } = req.body;
@@ -80,5 +81,21 @@ export async function signup(req, res, next) {
     });
   } catch (error) {
     next(error);
+  }
+}
+
+export async function sendEmail(req, res) {
+  const { to, subject, body } = req.body;
+  try {
+    await sendMail({ to, subject, body });
+    return res.status(200).json({
+      success: true,
+      message: "Email sent successfully",
+    })
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "failed to end email"
+    })
   }
 }
