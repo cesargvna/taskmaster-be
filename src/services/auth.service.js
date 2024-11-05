@@ -17,11 +17,18 @@ export async function jwtEncode(payload) {
   if (!secret) {
     throw new Error("Secret not found");
   }
-  const token = jwt.sign(payload, secret, { expiresIn: '1d' });
+  const token = jwt.sign(payload, secret, { expiresIn: "1d" });
   return token;
 }
 
-export function jwtDecode(token) { }
+export function jwtDecode(token) {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error("Secret not found");
+  }
+  const decoded = jwt.verify(token, secret);
+  return decoded;
+}
 
 export function jwtVerify(encoded) {
   try {

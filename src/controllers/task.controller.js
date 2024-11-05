@@ -37,13 +37,11 @@ const getTaskById = async (req, res, next) => {
 };
 
 const createTask = async (req, res, next) => {
-  const { name, description, status } = req.body;
+  req.body;
   try {
     const task = await Task.create({
       id: v4(),
-      name,
-      description,
-      status,
+      ...req.body,
     });
     res.status(201).json({
       success: true,
@@ -98,7 +96,10 @@ const deleteTask = async (req, res, next) => {
       });
     }
     await task.destroy();
-    res.status(204).end();
+    return res.status(200).json({
+      success: true,
+      message: "Task deleted",
+    });
   } catch (error) {
     next(error);
   }

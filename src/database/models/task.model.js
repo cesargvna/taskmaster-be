@@ -17,8 +17,20 @@ const Task = connection.define(
       allowNull: true,
     },
     status: {
-      type: DataTypes.ENUM("do", "in-progress", "completed"),
-      defaultValue: "do",
+      type: DataTypes.ENUM("pending", "in_progress", "completed"),
+      defaultValue: "pending",
+    },
+    priority: {
+      type: DataTypes.ENUM("low", "medium", "high"),
+      defaultValue: "low",
+    },
+    fechaVencimiento: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    category: {
+      type: DataTypes.ENUM("work", "personal", "student", "other"),
+      defaultValue: "personal",
     },
   },
   {
