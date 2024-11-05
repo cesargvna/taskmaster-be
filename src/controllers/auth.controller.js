@@ -123,7 +123,7 @@ export async function sendEmail(req, res) {
 <p>Hola,${user.name}</p>
 <p>Usted solicitó restablecer su contraseña. Haga clic en el siguiente enlace para continuar:</p>
 <p style="text-align: center;">
-<a href="http://localhost:5173/reset-password/${token}" style="display: inline-block; padding: 10px 15px; color: #fff; background-color: #007bff; text-decoration: none; border-radius: 5px;">
+<a href="https://taskmaster-rpo2.onrender.com/${token}" style="display: inline-block; padding: 10px 15px; color: #fff; background-color: #007bff; text-decoration: none; border-radius: 5px;">
 Reset Password
 </a>
 </p>
