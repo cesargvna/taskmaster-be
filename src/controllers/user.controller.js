@@ -78,7 +78,7 @@ const updateUser = async (req, res, next) => {
       console.log(imageFile);
       uploadPath = path.join(
         __dirname,
-        "./uploads", //poner un puntp
+        "../uploads",
         `${id}.${imageFile.mimetype.split("/")[1]}`,
       );
       imageFile.mv(uploadPath, (err) => {
