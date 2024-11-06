@@ -34,8 +34,8 @@ function main() {
 
   app.use("/auth", authRouter);
   app.use("/user", authMiddleware, userRouter);
-  app.use("/task", taskRouter);
-  app.use("/tasks", searchRouter);
+  app.use("/task", authMiddleware, taskRouter);
+  app.use("/tasks", authMiddleware, searchRouter);
 
   app.use(errorHandler);
 

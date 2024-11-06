@@ -105,7 +105,7 @@ export async function sendEmail(req, res) {
   };
 
   const token = await jwtEncode(payload);
-  const local = "http://localhost:3000/reset-password/" + token;
+  const local = "http://localhost:5173/reset-password/" + token;
   const render = "https://taskmaster-rpo2.onrender.com/reset-password/" + token;
   const payloadEmail = {
     to: email,

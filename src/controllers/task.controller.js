@@ -1,9 +1,17 @@
 import { v4 } from "uuid";
 import { Task } from "../database/models/index.js";
+import { User } from "../database/models/index.js";
 
 const getTasks = async (req, res, next) => {
   try {
-    const tasks = await Task.findAll();
+    const tasks = await Task.findAll({
+      include: [
+        {
+          model: User,
+          where: { id: req.user.id },
+        },
+      ],
+    });
     res.status(200).json({
       success: true,
       data: tasks,
@@ -43,9 +51,10 @@ const createTask = async (req, res, next) => {
       id: v4(),
       ...req.body,
     });
-    res.status(201).json({
+    await task.addUser(req.user);
+    return res.status(201).json({
       success: true,
-      data: task,
+      message: "Task created",
     });
   } catch (error) {
     next(error);

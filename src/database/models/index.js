@@ -1,16 +1,17 @@
 import { User } from "./user.model.js";
 import { Task } from "./task.model.js";
+import { UserTask } from "./usertask.model.js";
 
 User.belongsToMany(Task, {
   through: {
-    model: "User_Task",
+    model: UserTask,
     unique: false,
   },
 });
 
 Task.belongsToMany(User, {
   through: {
-    model: "User_Task",
+    model: UserTask,
     unique: false,
   },
 });
@@ -23,4 +24,8 @@ Task.sync({
   //force: true,
 });
 
-export { User, Task };
+UserTask.sync({
+  //force: true,
+});
+
+export { User, Task, UserTask };
