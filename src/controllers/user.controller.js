@@ -22,7 +22,7 @@ const getUserByToken = async (req, res, next) => {
         .status(404)
         .json({ success: false, message: "User not found" });
     }
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       data: user,
     });
@@ -44,7 +44,7 @@ const getUserById = async (req, res, next) => {
         .status(404)
         .json({ success: false, message: "User not found" });
     }
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       data: user,
     });
@@ -99,7 +99,7 @@ const updateUser = async (req, res, next) => {
 
     await user.update(updatedUser);
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "User updated",
     });
