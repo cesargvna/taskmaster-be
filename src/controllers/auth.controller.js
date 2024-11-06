@@ -105,7 +105,8 @@ export async function sendEmail(req, res) {
   };
 
   const token = await jwtEncode(payload);
-
+  const local = "http://localhost:3000/reset-password/" + token;
+  const render = "https://taskmaster-rpo2.onrender.com/reset-password/" + token;
   const payloadEmail = {
     to: email,
     subject: "Recover password",
@@ -123,7 +124,7 @@ export async function sendEmail(req, res) {
 <p>Hola,${user.name}</p>
 <p>Usted solicitó restablecer su contraseña. Haga clic en el siguiente enlace para continuar:</p>
 <p style="text-align: center;">
-<a href="https://taskmaster-rpo2.onrender.com/reset-password/${token}" style="display: inline-block; padding: 10px 15px; color: #fff; background-color: #007bff; text-decoration: none; border-radius: 5px;">
+<a href="${local}" style="display: inline-block; padding: 10px 15px; color: #fff; background-color: #007bff; text-decoration: none; border-radius: 5px;">
 Reset Password
 </a>
 </p>
