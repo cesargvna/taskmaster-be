@@ -63,7 +63,9 @@ const createTask = async (req, res, next) => {
 
 const updateTask = async (req, res, next) => {
   const { id } = req.params;
-  const { name, description, status } = req.body;
+  const { name, description, fechaVencimiento, status, priority, category } =
+    req.body;
+  console.log(req.body);
   try {
     const task = await Task.findOne({
       where: {
@@ -79,9 +81,12 @@ const updateTask = async (req, res, next) => {
     const updatedTask = await task.update({
       name,
       description,
+      fechaVencimiento,
       status,
+      priority,
+      category,
     });
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       data: updatedTask,
     });
