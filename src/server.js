@@ -36,7 +36,9 @@ function main() {
   app.use("/user", authMiddleware, userRouter);
   app.use("/task", authMiddleware, taskRouter);
   app.use("/tasks", authMiddleware, searchRouter);
-
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "build", "index.html"));
+  });
   app.use(errorHandler);
 
   const httpServer = http.createServer(app);
